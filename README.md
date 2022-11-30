@@ -1,2 +1,2 @@
-# timer
-Timer app
+# Timer
+Minimalist time tracking
