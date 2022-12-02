@@ -105,14 +105,32 @@ class TimerElement {
     titleElem.appendChild(document.createTextNode(timer.title));
     rowElem.appendChild(titleElem);
 
-    const actionElem = document.createElement("td");
-    const buttonElem = document.createElement("button");
-    buttonElem.setAttribute("class", "ui icon button");
-    buttonElem.setAttribute("data-timer-id", timer.id);
+    const startedAtElem = document.createElement("td");
+    startedAtElem.appendChild(document.createTextNode("10: 15"));
+    rowElem.appendChild(startedAtElem);
+
+    const timeClockedElem = document.createElement("td");
+    this.timeClockedTextNode = document.createTextNode("");
+    timeClockedElem.appendChild(this.timeClockedTextNode);
+    rowElem.appendChild(timeClockedElem);
+
+    const actionElems = document.createElement("td");
+    const actionButtonsElem = document.createElement("div");
+    actionButtonsElem.setAttribute("class", "ui icon buttons");
+    const detailViewButton = document.createElement("button");
+    detailViewButton.setAttribute("class", "ui button")
+    const detailViewIcon = document.createElement("i");
+    detailViewIcon.setAttribute("class", "list ul icon");
+    detailViewButton.appendChild(detailViewIcon);
+    actionButtonsElem.appendChild(detailViewButton);
+
+    const startStopButtonElem = document.createElement("button");
+    startStopButtonElem.setAttribute("class", "ui icon button");
+    startStopButtonElem.setAttribute("data-timer-id", timer.id);
     this.actionIconNode = document.createElement("i");
     this.actionIconNode.setAttribute("class", "green play icon");
-    buttonElem.appendChild(this.actionIconNode);
-    buttonElem.addEventListener("click", ({ target }) => {
+    startStopButtonElem.appendChild(this.actionIconNode);
+    startStopButtonElem.addEventListener("click", ({ target }) => {
       let timerId;
 
       if(target.nodeName === 'I'){
@@ -133,22 +151,18 @@ class TimerElement {
       const iconClass = timer.startedAt ? "orange pause icon" : "green play icon";
       this.actionIconNode.setAttribute("class", iconClass);
     });
+    actionButtonsElem.appendChild(startStopButtonElem)
+    actionElems.appendChild(actionButtonsElem);
 
-    actionElem.appendChild(buttonElem);
-    rowElem.appendChild(actionElem);
+    const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("class", "ui button")
+    const deleteIcon = document.createElement("i");
+    deleteIcon.setAttribute("class", "trash red icon");
+    deleteButton.appendChild(deleteIcon);
+    actionButtonsElem.appendChild(deleteButton);
+    actionElems.appendChild(actionButtonsElem);
 
-    const startedAtElem = document.createElement("td");
-    startedAtElem.appendChild(document.createTextNode("10: 15"));
-    rowElem.appendChild(startedAtElem);
-
-    const timeClockedElem = document.createElement("td");
-    this.timeClockedTextNode = document.createTextNode("");
-    timeClockedElem.appendChild(this.timeClockedTextNode);
-    rowElem.appendChild(timeClockedElem);
-
-    const detailsElem = document.createElement("td");
-    detailsElem.appendChild(document.createTextNode("See details"));
-    rowElem.appendChild(detailsElem);
+    rowElem.appendChild(actionElems);
 
     return rowElem;
   }
