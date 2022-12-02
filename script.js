@@ -113,7 +113,15 @@ class TimerElement {
     this.actionIconNode.setAttribute("class", "green play icon");
     buttonElem.appendChild(this.actionIconNode);
     buttonElem.addEventListener("click", ({ target }) => {
-      const timer = timers.getById(parseInt(target.dataset.timerId));
+      let timerId;
+
+      if(target.nodeName === 'I'){
+        timerId = parseInt(target.closest('button').dataset.timerId);
+      } else {
+        timerId = parseInt(target.dataset.timerId);
+      }
+
+      const timer = timers.getById(parseInt(timerId));
 
       if (timer.startedAt) {
         timers.stopTimerById(timer.id);
@@ -125,6 +133,7 @@ class TimerElement {
       const iconClass = timer.startedAt ? "orange pause icon" : "green play icon";
       this.actionIconNode.setAttribute("class", iconClass);
     });
+
     actionElem.appendChild(buttonElem);
     rowElem.appendChild(actionElem);
 
