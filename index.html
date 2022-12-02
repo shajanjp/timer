@@ -5,11 +5,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Timer</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/components/container.min.css"
+      integrity="sha512-IUhIc6Zv/UBzmK9W+2PBOw2DHH/E0MviFQWNYIqisFosYiBuhtd6CHTHI2Oy+vFpkdjFyV4pDVWOZfAQnZmHew=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/components/table.min.css"
+      integrity="sha512-LO7R36eoQTR8mctOTFrAUUGCBiqbouo0mzi5dicyVrW76ECJSI4leeTh3PIX4Hp+09++NA3TVFPRg/0C7viORA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/components/input.min.css"
+      integrity="sha512-/2SPb+/ufZ1JxqZtjgwhYh6Eg0/rh9IDNjjfPyhJQEeXGRsi8bu7dpI8i2hoGaK4m8iRMvn2L7vBrAy5MdW76A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/components/button.min.css"
+      integrity="sha512-+1Zl+cDrkWiaN4aCOs9XZ12Jm4Lg3OztufLITILSxr3mo5QM3+WgLH6+s+ytIWoWWQcdNlMGn1JHf75TzHvPHA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/components/site.min.css"
+      integrity="sha512-yEmNIS6Qdu0YdnkjO1ESV2WOq8ZrFyUCv11SyHSpiTWNq8wzH9IXV2cpfCoYzVnJ7N6TsWoRolz59B8n4yB0TQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/components/icon.min.css"
+      integrity="sha512-rTyypI20S663Wq9zrzMSOP1MNPHaYX7+ug5OZ/DTqCDLwRdErCo2W30Hdme3aUzJSvAUap3SmBk0r5j0vRxyGw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
-    <div class="container">
-
-      <table>
+    <div class="ui container">
+      <table class="ui celled   table">
         <thead>
           <tr>
             <th>Title</th>
@@ -20,19 +62,20 @@
           </tr>
         </thead>
         <tbody id="table-content"></tbody>
+        <tfoot>
+          <tr>
+            <th colspan="5">
+              <div class="ui fluid action input">
+                <input type="text" placeholder="title" id="timer-title" />
+                <button class="ui basic positive button" id="add-timer">
+                  <i class="add user"></i>
+                  Add Timer
+                </button>
+              </div>
+            </th>
+          </tr>
+        </tfoot>
       </table>
-
-      <div class="grid">
-        <div>
-          <input type="text" id="timer-title" />
-        </div>
-        <div>
-          <button id="add-timer">Add timer</button>
-        </div>
-        <div></div>
-        <div></div>
-      </div>
-
     </div>
 
     <script src="./script.js"></script>

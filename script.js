@@ -4,6 +4,7 @@ const tableContent = document.getElementById("table-content");
 class Timers {
   list = new Map();
   index = 0;
+  currentRunningTimer;
 
   add(title) {
     const id = ++this.index;
@@ -12,6 +13,25 @@ class Timers {
     this.list.set(id, timer);
 
     return timer;
+  }
+
+  startTimerById(id) {
+    console.log({id})
+    const timer = this.getById(id);
+    timer.start();
+
+    if (this.currentRunningTimer) {
+      this.currentRunningTimer.stop();
+    }
+
+    this.currentRunningTimer = timer;
+  }
+
+  stopTimerById(id) {
+    const timer = this.getById(id);
+    timer.stop();
+
+    this.currentRunningTimer = null;
   }
 
   getById(id) {
@@ -34,6 +54,7 @@ class Timer {
   timeClocked = 0;
   timeClockedHumanReadable = "0m";
   isRunning = false;
+  history = [];
 
   constructor(id, title) {
     this.id = id;
@@ -45,18 +66,20 @@ class Timer {
   }
 
   stop() {
-    this.timeClocked += new Date() - this.startedAt;
+    const currentDate = new Date();
+
+    this.timeClocked += currentDate - this.startedAt;
     this.timeClockedHumanReadable = this.#convertMillisecondsToHumanReadable(this.timeClocked);
-    console.log(this.timeClockedHumanReadable);
+    this.history.push([this.startedAt, currentDate]);
     this.startedAt = 0;
   }
 
   #convertMillisecondsToHumanReadable(timeClocked) {
     let timeTexts = [];
-    const seconds = timeClocked / 1000;
+    const seconds = Math.floor(timeClocked / 1000);
     const hours = Math.floor(seconds / 3600);
-    const minutes = Math.round(((seconds % 3600)/60) / 5) * 5;
-
+    const minutes = Math.round((seconds % 3600) / 60 / 5) * 5;
+    console.log({ timeClocked, seconds, hours, minutes });
     if (hours) {
       timeTexts.push(`${hours}h`);
     }
@@ -71,6 +94,9 @@ const timers = new Timers();
 addTimerButton.addEventListener("click", addNewTimer);
 
 class TimerElement {
+  actionTextNode;
+  timeClockedTextNode;
+
   constructor(timer) {
     const rowElem = document.createElement("tr");
     rowElem.setAttribute("data-timer-id", timer.id);
@@ -81,19 +107,23 @@ class TimerElement {
 
     const actionElem = document.createElement("td");
     const buttonElem = document.createElement("button");
-    buttonElem.setAttribute("class", "action-button");
+    buttonElem.setAttribute("class", "ui icon button");
     buttonElem.setAttribute("data-timer-id", timer.id);
-    this.actionTextNode = document.createTextNode("Play");
-    buttonElem.appendChild(this.actionTextNode);
+    this.actionIconNode = document.createElement("i");
+    this.actionIconNode.setAttribute("class", "green play icon");
+    buttonElem.appendChild(this.actionIconNode);
     buttonElem.addEventListener("click", ({ target }) => {
       const timer = timers.getById(parseInt(target.dataset.timerId));
+
       if (timer.startedAt) {
-        timer.stop();
+        timers.stopTimerById(timer.id);
         this.timeClockedTextNode.nodeValue = timer.timeClockedHumanReadable;
       } else {
-        timer.start();
+        timers.startTimerById(timer.id);
       }
-      this.actionTextNode.nodeValue = timer.startedAt ? "Pause" : "Play";
+
+      const iconClass = timer.startedAt ? "orange pause icon" : "green play icon";
+      this.actionIconNode.setAttribute("class", iconClass);
     });
     actionElem.appendChild(buttonElem);
     rowElem.appendChild(actionElem);
